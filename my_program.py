@@ -1,5 +1,5 @@
 
-MAX_NUM = 100
+MAX_NUM = 50
 
 def even_numbers():
     """
