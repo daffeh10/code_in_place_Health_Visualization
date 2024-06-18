@@ -1,18 +1,23 @@
-# python3 "Health Visualization.py (type this in the terminal to run this script)
-import random
+# python3 "Health Visualization.py" (type this in the terminal to run this script)
 #python3 -m pip install matplotlib (run in the terminal)
+# "pip install matplotlib", to install the  library 
+# "shift + enter" to run selected lines of code
+# "shift + /" to comment/uncomment
+#  "Ctrl+Shift+P" to open the command palette
+import random
 import matplotlib.pyplot as plt
 
-# Define constants
-NUM_INDIVIDUALS = 100
+# Define some constants
+NUM_INDIVIDUALS = 1000
 STUDY_PERIOD = [2009, 2019] 
 HEALTH_STATES = ['Mild', 'Moderate', 'Severe', 'Critical']
 CARE_TYPES = ['Home', 'Institutional']
 
-# Generate random health data
+# Generate random health data frame
 individuals = []
+random.seed(123) #for reproducibility
 for i in range(NUM_INDIVIDUALS):
-    birth_year = random.randint(1940, 2000)
+    birth_year = random.randint(1920, 2000)
     gender = random.choice(['Male', 'Female'])
     initial_health_state = random.choice(HEALTH_STATES)
     age = 2019 - birth_year
@@ -50,10 +55,12 @@ print(f"Median Age: {median_age}")
 print(f"Age Range: {age_range}")
 print(f"Standard Deviation of Age: {std_dev_age}")
 
+#######################################################################################
 # Gender summary statistics
-gender_counts = {'Male': 0, 'Female': 1}
+gender_counts = {'Male': 0, 'Female': 0}
 for individual in individuals:
     gender_counts[individual['gender']] += 1
+print(gender_counts)
 
 total_individuals = len(individuals)
 proportion_male = (gender_counts['Male'] / total_individuals) * 100
@@ -64,92 +71,148 @@ print(f"Count of Females: {gender_counts['Female']}")
 print(f"Proportion of Males: {proportion_male}%")
 print(f"Proportion of Females: {proportion_female}%")
 
-# Plot_1 bar chart_Initial Distribution of Health States
-plt.figure(figsize=(10, 5))
-plt.bar(health_state_counts.keys(), health_state_counts.values(), color='skyblue')
-plt.xlabel('Health State')
-plt.ylabel('Number of Individuals')
-plt.title('Initial Distribution of Health States')
-plt.savefig('initial distr health state.png')  # Save the plot to a file
-plt.show()
-#plt.close()  # Close the plot to free up memory
+#####################################################################################
+# Plotting the Age distribution
+# Create age categories
+age_categories = {'0-40': 0, '41-65': 0, '66-90': 0, '90+': 0}
+for age in ages:
+    if age <= 40:
+        age_categories['0-40'] += 1
+    elif age <= 65:
+        age_categories['41-65'] += 1
+    elif age <= 90:
+        age_categories['66-90'] += 1
+    else:
+        age_categories['90+'] += 1
 
-
-# Plot_2 pie chart__Initial Distribution of Health States
-plt.figure(figsize=(8, 8))
-plt.pie(health_state_counts.values(), labels=health_state_counts.keys(), autopct='%1.1f%%', 
-        colors=['lightgreen', 'lightblue', 'lightcoral', 'lightyellow'])
-plt.title('Initial Distribution of Health States')
-plt.savefig('pie_chart_initial_distr.png')
-plt.show()
-
-#Plot_3 Age distribution for the histogram
+## line plot for Age distribution
 ages = [individual['age'] for individual in individuals]
 plt.figure(figsize=(10, 5))
-plt.hist(ages, bins=range(0, 100, 5), color='skyblue', edgecolor='black')
+plt.plot(list(age_categories.keys()), list(age_categories.values()))
 plt.xlabel('Age')
 plt.ylabel('Number of Individuals')
-plt.title('Age Distribution of Individuals')
-plt.savefig('age_distr_individulas.png')
+plt.title('Line graph: Age Categories')
+#plt.savefig('age_distr_individulas1.png')
 plt.show()
 
-# Plot 4: Bar Chart - Care Type distribution
-# care_type_counts = {care_type: 0 for care_type in CARE_TYPES}
-# for individual in individuals:
-#     if individual['care_type'] != 'None':
-#         care_type_counts[individual['care_type']] += 1
-
-# # CARE TYPE COUNT
-# care_type_counts = {'Home': 0, 'Institutional': 1} #'Home', 'Institutional'
-# for individual in individuals:
-#     care_type_counts[individual['care_type']] += 1
-
-# plt.figure(figsize=(10, 5))
-# plt.bar(care_type_counts.keys(), care_type_counts.values(), color='skyblue', edgecolor='black')
-# plt.xlabel('Care Type')
-# plt.ylabel('Number of Individuals')
-# plt.title('Care Type Distribution')
-# plt.savefig('care_type_distr.png')
-# plt.show()
-
-
-# CARE TYPE COUNT
-# care_type_counts = {'Home': 0, 'Institutional': 0}  # Initialize counts for 'Home' and 'Institutional'
-# for individual in individuals:
-#     if individual['care_type'] != 'None':  # Only count if the care type is not 'None'
-#         care_type_counts[individual['care_type']] += 1
-
-# plt.figure(figsize=(10, 5))
-# plt.bar(care_type_counts.keys(), care_type_counts.values(), color='skyblue', edgecolor='black')
-# plt.xlabel('Care Type')
-# plt.ylabel('Number of Individuals')
-# plt.title('Care Type Distribution')
-# plt.savefig('care_type_distr.png')
-# plt.show()
-
-# Plot 5: Comparison Plot - Age, Initial Health State, and Care Type
-plt.figure(figsize=(15, 5))
-
-# Plotting Age distribution
-plt.subplot(1, 3, 1)
-plt.hist(ages, bins=range(0, 100, 5), color='skyblue', edgecolor='black')
+## histogram  for Age distribution
+plt.hist(ages)
+#plt.hist(ages, bins=range(0, 100, 5), color='skyblue', edgecolor='black')
 plt.xlabel('Age')
 plt.ylabel('Number of Individuals')
-plt.title('Age Distribution')
+plt.title('Histogram: Age Distribution of Individuals')
+#plt.savefig('age_distr_individulas2.png')
+plt.show()
+
+## bar chat  for Age distribution
+plt.bar(age_categories.keys(), age_categories.values(), color='red', edgecolor='black')
+plt.xlabel('Age')
+plt.ylabel('Number of Individuals')
+plt.title('Bar chart: Age Distribution of Individuals')
+#plt.savefig('age_distr_individulas3.png')
+plt.show()
+
+########################################################################################
+# Plotting the Initial Distribution of Health States
+## line plot _Initial Distribution of Health States
+plt.plot(health_state_counts.keys(), health_state_counts.values())
+plt.xlabel('Health State')
+plt.ylabel('Number of Individuals')
+plt.title('Line graph: Initial Distribution of Health States')
+#plt.savefig('initial_distr_individulas1.png')
+plt.show()
+
+# bar chart_Initial Distribution of Health States
+plt.figure(figsize=(10, 5))
+plt.bar(health_state_counts.keys(), health_state_counts.values()) 
+plt.xlabel('Health State')
+plt.ylabel('Number of Individuals')
+plt.title('Bar chart: Initial Distribution of Health States')
+#plt.savefig('initial_distr_individulas2.png')  # Save the plot to a file
+plt.show()
+
+# pie chart__Initial Distribution of Health States
+plt.figure(figsize=(8, 8))
+plt.pie(health_state_counts.values(), labels=health_state_counts.keys(), autopct='%1.1f%%') 
+plt.title('Pie chart: Initial Distribution of Health States')
+#plt.savefig('initial_distr_individulas3.png')
+plt.show()
+
+
+################################################################################
+# Plotting the Distribution  of CARE TYPE
+# Count initial health states
+counts_care_type = {care: 0 for care in CARE_TYPES} #initializes a dictionary with keys 'Home' and 'Institution' starting at 0
+for individual in individuals:
+    care_type = individual['care_type']
+    if care_type is not None: #check if care_type != None
+        counts_care_type[care_type] += 1
+print(counts_care_type.keys())
+print(counts_care_type.values())
+
+#create a bar chart
+plt.bar(counts_care_type.keys(), counts_care_type.values(), color='green', edgecolor='black')
+plt.xlabel('Care Type')
+plt.ylabel('Number of Individuals')
+plt.title('Care Type Distribution')
+#plt.savefig('care_type_distr.png')
+plt.show()
+
+# Create a pie chart
+plt.pie(counts_care_type.values(), labels=counts_care_type.keys(), autopct='%1.1f%%', startangle=90, colors=['lightblue', 'lightgreen'])
+plt.title('Care Type Distribution - Pie Chart')
+#plt.savefig('care_type_distribution_pie.png')
+plt.show()
+
+
+########################################################################################
+# Plotting the Distribution of Gender
+# bar chart_ _Gender Distribution
+plt.bar(gender_counts.keys(), gender_counts.values(), color='lightgreen')
+plt.xlabel('Gender')
+plt.ylabel('Number of Individuals')
+plt.title('Bar chart: Distribution of Gender')
+#plt.savefig('gender_distr_individulas1.png')  # Save the plot to a file
+plt.show()
+
+# pie chart _Gender Distribution
+plt.pie(gender_counts.values(), labels=gender_counts.keys(), autopct='%1.1f%%', 
+        colors=['lightgreen', 'lightblue', 'lightcoral', 'lightyellow'])
+plt.title('Pie chart: Gender Distribution')
+#plt.savefig('gender_distr_individulas2.png')
+plt.show()
+
+#########################################################################
+# Plot 5: Comparison Plot - Age, Initial Health State, Care Type, and Gender
+plt.figure(figsize=(15, 6))
+
+# Plotting Age distribution
+plt.subplot(1, 4, 1)
+plt.bar(age_categories.keys(), age_categories.values(), color='skyblue', edgecolor='black')
+plt.xlabel('Age')
+plt.ylabel('Number of Individuals')
+plt.title('Bar chart: Age Distribution of Individuals')
 
 # Plotting Initial Health State distribution
-plt.subplot(1, 3, 2)
-plt.bar(health_state_counts.keys(), health_state_counts.values(), color='skyblue')
+plt.subplot(1, 4, 2)
+plt.bar(health_state_counts.keys(), health_state_counts.values(), color='lightblue')
 plt.xlabel('Health State')
 plt.ylabel('Number of Individuals')
 plt.title('Health State Distribution')
 
 # # Plotting Care Type distribution
-# plt.subplot(1, 3, 3)
-# plt.bar(care_type_counts.keys(), care_type_counts.values(), color='skyblue', edgecolor='black')
-# plt.xlabel('Care Type')
-# plt.ylabel('Number of Individuals')
-# plt.title('Care Type Distribution')
+plt.subplot(1, 4, 3)
+plt.bar(counts_care_type.keys(), counts_care_type.values(), color='lightcoral', edgecolor='black')
+plt.xlabel('Care Type')
+plt.ylabel('Number of Individuals')
+plt.title('Care Type Distribution')
+
+# Plotting Gender Distribution
+plt.subplot(1, 4, 4)
+plt.bar(gender_counts.keys(), gender_counts.values(), color='red')
+plt.xlabel('Gender')
+plt.ylabel('Number of Individuals')
+plt.title('Bar chart: Initial Distribution of Health States')
 
 plt.tight_layout()  # Adjust subplots to fit into the figure area.
 plt.savefig('comparison_plot.png')
