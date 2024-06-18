@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # Define constants
 NUM_INDIVIDUALS = 100
-STUDY_PERIOD = (2009, 2019) #a tuple, though not covered in CIP
+STUDY_PERIOD = [2009, 2019] 
 HEALTH_STATES = ['Mild', 'Moderate', 'Severe', 'Critical']
 CARE_TYPES = ['Home', 'Institutional']
 
@@ -51,7 +51,7 @@ print(f"Age Range: {age_range}")
 print(f"Standard Deviation of Age: {std_dev_age}")
 
 # Gender summary statistics
-gender_counts = {'Male': 0, 'Female': 0}
+gender_counts = {'Male': 0, 'Female': 1}
 for individual in individuals:
     gender_counts[individual['gender']] += 1
 
@@ -93,3 +93,64 @@ plt.title('Age Distribution of Individuals')
 plt.savefig('age_distr_individulas.png')
 plt.show()
 
+# Plot 4: Bar Chart - Care Type distribution
+# care_type_counts = {care_type: 0 for care_type in CARE_TYPES}
+# for individual in individuals:
+#     if individual['care_type'] != 'None':
+#         care_type_counts[individual['care_type']] += 1
+
+# # CARE TYPE COUNT
+# care_type_counts = {'Home': 0, 'Institutional': 1} #'Home', 'Institutional'
+# for individual in individuals:
+#     care_type_counts[individual['care_type']] += 1
+
+# plt.figure(figsize=(10, 5))
+# plt.bar(care_type_counts.keys(), care_type_counts.values(), color='skyblue', edgecolor='black')
+# plt.xlabel('Care Type')
+# plt.ylabel('Number of Individuals')
+# plt.title('Care Type Distribution')
+# plt.savefig('care_type_distr.png')
+# plt.show()
+
+
+# CARE TYPE COUNT
+# care_type_counts = {'Home': 0, 'Institutional': 0}  # Initialize counts for 'Home' and 'Institutional'
+# for individual in individuals:
+#     if individual['care_type'] != 'None':  # Only count if the care type is not 'None'
+#         care_type_counts[individual['care_type']] += 1
+
+# plt.figure(figsize=(10, 5))
+# plt.bar(care_type_counts.keys(), care_type_counts.values(), color='skyblue', edgecolor='black')
+# plt.xlabel('Care Type')
+# plt.ylabel('Number of Individuals')
+# plt.title('Care Type Distribution')
+# plt.savefig('care_type_distr.png')
+# plt.show()
+
+# Plot 5: Comparison Plot - Age, Initial Health State, and Care Type
+plt.figure(figsize=(15, 5))
+
+# Plotting Age distribution
+plt.subplot(1, 3, 1)
+plt.hist(ages, bins=range(0, 100, 5), color='skyblue', edgecolor='black')
+plt.xlabel('Age')
+plt.ylabel('Number of Individuals')
+plt.title('Age Distribution')
+
+# Plotting Initial Health State distribution
+plt.subplot(1, 3, 2)
+plt.bar(health_state_counts.keys(), health_state_counts.values(), color='skyblue')
+plt.xlabel('Health State')
+plt.ylabel('Number of Individuals')
+plt.title('Health State Distribution')
+
+# # Plotting Care Type distribution
+# plt.subplot(1, 3, 3)
+# plt.bar(care_type_counts.keys(), care_type_counts.values(), color='skyblue', edgecolor='black')
+# plt.xlabel('Care Type')
+# plt.ylabel('Number of Individuals')
+# plt.title('Care Type Distribution')
+
+plt.tight_layout()  # Adjust subplots to fit into the figure area.
+plt.savefig('comparison_plot.png')
+plt.show()
