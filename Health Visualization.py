@@ -38,23 +38,28 @@ for i in range(NUM_INDIVIDUALS):
     individuals.append(individual) # Adds the individual’s dictionary to the individuals list.
 
 # Count initial health states
-health_state_counts = {state: 0 for state in HEALTH_STATES}
+health_state_counts = {state: 0 for state in HEALTH_STATES} #initializing a dictionary that counts from 0
 for individual in individuals:
     health_state_counts[individual['initial_health_state']] += 1
 
 ############################################################################
 ## Age summary statistics
-ages = [individual['age'] for individual in individuals]
+ages = [individual['age'] for individual in individuals] 
+#using 'list comprehension' to iterate through 'individuals' to create the 'ages' list
+#which contains the 'ages' of individuals in the individuals list 
 mean_age = sum(ages) / len(ages)
-median_age = sorted(ages)[len(ages) // 2]
+median_age = sorted(ages)[len(ages) // 2] #finds the middle index (using integer division)
 age_range = max(ages) - min(ages)
 std_dev_age = (sum((x - mean_age) ** 2 for x in ages) / len(ages)) ** 0.5
+#for each 'x' calculate the square difference from the 'mean_age' 
+#take the square root of the variance to get the 'standard deviation of age' 
 
 print(f"Mean Age: {mean_age}")
 print(f"Median Age: {median_age}")
 print(f"Age Range: {age_range}")
 print(f"Standard Deviation of Age: {std_dev_age}")
-
+print()
+print()
 #######################################################################################
 # Gender summary statistics
 gender_counts = {'Male': 0, 'Female': 0}
@@ -114,6 +119,7 @@ plt.show()
 
 ########################################################################################
 # Plotting the Initial Distribution of Health States
+
 ## line plot _Initial Distribution of Health States
 plt.plot(health_state_counts.keys(), health_state_counts.values())
 plt.xlabel('Health State')
@@ -123,7 +129,7 @@ plt.title('Line graph: Initial Distribution of Health States')
 plt.show()
 
 # bar chart_Initial Distribution of Health States
-plt.figure(figsize=(10, 5))
+#plt.figure(figsize=(10, 5))
 plt.bar(health_state_counts.keys(), health_state_counts.values()) 
 plt.xlabel('Health State')
 plt.ylabel('Number of Individuals')
@@ -141,8 +147,9 @@ plt.show()
 
 ################################################################################
 # Plotting the Distribution  of CARE TYPE
+
 # Count initial health states
-counts_care_type = {care: 0 for care in CARE_TYPES} #initializes a dictionary with keys 'Home' and 'Institution' starting at 0
+counts_care_type = {care: 0 for care in CARE_TYPES} #initializes a dictionary with keys 'Home' and 'Institution' counting from 0
 for individual in individuals:
     care_type = individual['care_type']
     if care_type is not None: #check if care_type != None
@@ -154,19 +161,20 @@ print(counts_care_type.values())
 plt.bar(counts_care_type.keys(), counts_care_type.values(), color='green', edgecolor='black')
 plt.xlabel('Care Type')
 plt.ylabel('Number of Individuals')
-plt.title('Care Type Distribution')
+plt.title('Bar Chart: Care Type Distribution')
 #plt.savefig('care_type_distr.png')
 plt.show()
 
 # Create a pie chart
 plt.pie(counts_care_type.values(), labels=counts_care_type.keys(), autopct='%1.1f%%', startangle=90, colors=['lightblue', 'lightgreen'])
-plt.title('Care Type Distribution - Pie Chart')
+plt.title('Pie Chart - Care Type Distribution')
 #plt.savefig('care_type_distribution_pie.png')
 plt.show()
 
 
 ########################################################################################
 # Plotting the Distribution of Gender
+
 # bar chart_ _Gender Distribution
 plt.bar(gender_counts.keys(), gender_counts.values(), color='lightgreen')
 plt.xlabel('Gender')
@@ -191,7 +199,7 @@ plt.subplot(1, 4, 1)
 plt.bar(age_categories.keys(), age_categories.values(), color='skyblue', edgecolor='black')
 plt.xlabel('Age')
 plt.ylabel('Number of Individuals')
-plt.title('Bar chart: Age Distribution of Individuals')
+plt.title('Age Distribution of Individuals')
 
 # Plotting Initial Health State distribution
 plt.subplot(1, 4, 2)
@@ -212,7 +220,7 @@ plt.subplot(1, 4, 4)
 plt.bar(gender_counts.keys(), gender_counts.values(), color='red')
 plt.xlabel('Gender')
 plt.ylabel('Number of Individuals')
-plt.title('Bar chart: Initial Distribution of Health States')
+plt.title('Initial Distribution of Health States')
 
 plt.tight_layout()  # Adjust subplots to fit into the figure area.
 plt.savefig('comparison_plot.png')
